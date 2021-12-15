@@ -57,16 +57,19 @@ struct ImageView: View {
                 
                 let offsetWidthMax = ((UIScreen.main.bounds.maxX * scale - UIScreen.main.bounds.maxX) / scale) / 2
                 let dragScaled = CGSize(width: drag.width * scale, height: drag.height * scale)
-                if dragScaled.width > offsetWidthMax {
-                    drag.width = offsetWidthMax
-                } else if drag.width * scale < -offsetWidthMax {
-                    drag.width = -offsetWidthMax }
                 
-                let offsetHeightMax = (UIScreen.main.bounds.size.height * scale - UIScreen.main.bounds.size.height) / 2
-                if drag.height > offsetHeightMax {
-                    drag.height = offsetHeightMax
-                } else if drag.height < -offsetHeightMax {
-                    drag.height = -offsetHeightMax }
+                withAnimation {
+                    if dragScaled.width > offsetWidthMax {
+                        drag.width = offsetWidthMax
+                    } else if drag.width * scale < -offsetWidthMax {
+                        drag.width = -offsetWidthMax }
+                    
+                    let offsetHeightMax = (UIScreen.main.bounds.size.height * scale - UIScreen.main.bounds.size.height) / 2
+                    if drag.height > offsetHeightMax {
+                        drag.height = offsetHeightMax
+                    } else if drag.height < -offsetHeightMax {
+                        drag.height = -offsetHeightMax }
+                }
                 draggedAmount = CGSize.zero
             }
     }
@@ -84,17 +87,19 @@ struct ImageView: View {
             .scaleEffect(scale * zoomScaleAmount)
             .gesture(zoomGesture
                         .simultaneously(with: rotationGesture)
+                        .simultaneously(with: dragGesture)
                         .simultaneously(with: TapGesture(count: 2)
                                             .onEnded{
-                doubleTapped = !doubleTapped
-                if scale != 1 {
-                    drag = CGSize(width: 0, height: 0)
-                    scale = 1
-                } else {
-                    scale = 2
+                    doubleTapped = !doubleTapped
+                withAnimation {
+                    if scale != 1 {
+                        drag = CGSize(width: 0, height: 0)
+                        scale = 1
+                    } else {
+                        scale = 2
+                    }
                 }
-            })
-                        .simultaneously(with: dragGesture))
+            }))
     }
 }
 

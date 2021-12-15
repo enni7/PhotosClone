@@ -29,7 +29,6 @@ struct LibraryView: View {
     @State private var scrolledBar = false
     @State private var minimunColumnWidth = 120.0
     @State private var scale = 1.0
-    @GestureState private var pinchAmount = 1.0
     var columns : [GridItem] {
         let col = [GridItem(.adaptive(minimum: minimunColumnWidth), spacing: 4)]
         return col
@@ -71,6 +70,7 @@ struct LibraryView: View {
                         GeometryReader {geo in
                             Color.clear.opacity(0)
                                 .onChange(of: geo.frame(in: .named("scroll")).minY) { newVal in
+                                    //detect the first photo in first row on scrolling
                                     scrolledBar = (newVal >= 0 ? false : true)
                                     let modulus = abs(newVal).remainder(dividingBy: minimunColumnWidth + 4)
                                     if modulus >= 0 && modulus <= 1  {
@@ -82,10 +82,12 @@ struct LibraryView: View {
                 }.coordinateSpace(name: "scroll")
             }
             .scaleEffect(scale)
-            .gesture(pinchGesture)
+            .simultaneousGesture(pinchGesture)
+            
             .fullScreenCover(isPresented: $showPhoto) {
                 OpenedPhotoView(currIndex: currIndex)
             }
+            
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text(photoDatabase.photos[currIndex].dateFormattedDayMonth())

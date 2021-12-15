@@ -18,7 +18,6 @@ struct ScrollingPhotosPreviews: View {
                 HStack(spacing: 4){
                     Spacer(minLength: 200)
                     ForEach(photoDatabase.photos) { photoo in
-                        
                         //if currIndex == photoDatabase.indexForPhoto(photo: photoo) -> original aspect
                         PhotoRec(aspectRatio: 0.57, photo: photoo)
                             .id(photoDatabase.indexForPhoto(photo: photoo))
@@ -50,7 +49,9 @@ struct ScrollingPhotosPreviews: View {
                 }
             })
             .onAppear {
-                scroll.scrollTo(currIndex, anchor: .center)
+                withAnimation {
+                    scroll.scrollTo(currIndex, anchor: .center)
+                }
             }
         }
     }

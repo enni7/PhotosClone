@@ -25,7 +25,7 @@ struct OpenedPhotoView: View {
                         ImageView(photo: photoDatabase.photos[indx])
                             .ignoresSafeArea()
                             .onTapGesture {
-                                withAnimation(.linear(duration: 0.15)) {
+                                withAnimation(.linear(duration: 0.3)) {
                                     fullScreen.toggle()
                                 }
                             }
@@ -34,12 +34,15 @@ struct OpenedPhotoView: View {
                 }
             }
             .safeAreaInset(edge: .bottom) {
+                if !fullScreen {
                 ScrollingPhotosPreviews(currIndex: $currIndex)
                     .frame(maxHeight: 50)
-                    .padding(.top, 3)
+                    .padding(.top, 2)
                     .opacity(fullScreen ? 0 : 1)
+                    .transition(.opacity)
+                }
+                    
             }
-            
             .tabViewStyle(.page(indexDisplayMode: .never))
             .navigationBarHidden(fullScreen)
             .navigationBarTitleDisplayMode(.inline)
@@ -85,7 +88,7 @@ struct OpenedPhotoView: View {
                                 photoDatabase.photos[currIndex].isFavorite.toggle()
 
                             } label: {
-                                Image(systemName: photoDatabase.photos[currIndex].isFavorite ? "heart.fill" : "heart")
+                                Image(systemName: photoDatabase.photos[currIndex].isFavorite ? "heart.fill" : "heart").animation(.linear)
                             }
                             Spacer()
                             Button {
@@ -110,7 +113,7 @@ struct OpenedPhotoView: View {
 
 struct OpenedPhotoView_Previews: PreviewProvider {
     static var previews: some View {
-        OpenedPhotoView(currIndex: 42)
+        OpenedPhotoView(currIndex: 20)
             .environmentObject(PhotoDatabase())
     }
 }

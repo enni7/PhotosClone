@@ -23,6 +23,11 @@ struct Photo : Identifiable {
         self.isFavorite = isFavorite ?? false
     }
     
+    func photoAspectRatio() -> CGFloat {
+        let ar = self.image.size.width / self.image.size.height
+        return ar
+    }
+    
     func dateFormattedMonthDay() -> String {
         var date = self.date.formatted(date: .long, time: .omitted)
         date.removeLast(5)
