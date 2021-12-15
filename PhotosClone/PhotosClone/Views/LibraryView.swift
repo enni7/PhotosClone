@@ -25,7 +25,7 @@ struct LibraryView: View {
     @EnvironmentObject private var photoDatabase: PhotoDatabase
     @State private var showPhoto = false
     @State var currIndex : Int = 0
-
+    
     @State private var scrolledBar = false
     @State private var minimunColumnWidth = 120.0
     @State private var scale = 1.0
@@ -66,23 +66,23 @@ struct LibraryView: View {
                                     currIndex = photoDatabase.indexForPhoto(photo: photo)
                                     showPhoto.toggle()
                                 }
-                                }
-                        }.background {
-                            GeometryReader {geo in
-                                Color.clear.opacity(0)
-                                    .onChange(of: geo.frame(in: .named("scroll")).minY) { newVal in
-                                        scrolledBar = (newVal >= 0 ? false : true)
-                                        let modulus = abs(newVal).remainder(dividingBy: minimunColumnWidth + 4)
-                                        if modulus >= 0 && modulus <= 1  {
-                                            currIndex = photoDatabase.scrolledCurrentPhotoIndex(offset: newVal, colWidth: minimunColumnWidth)
-                                        }
+                        }
+                    }.background {
+                        GeometryReader {geo in
+                            Color.clear.opacity(0)
+                                .onChange(of: geo.frame(in: .named("scroll")).minY) { newVal in
+                                    scrolledBar = (newVal >= 0 ? false : true)
+                                    let modulus = abs(newVal).remainder(dividingBy: minimunColumnWidth + 4)
+                                    if modulus >= 0 && modulus <= 1  {
+                                        currIndex = photoDatabase.scrolledCurrentPhotoIndex(offset: newVal, colWidth: minimunColumnWidth)
                                     }
-                            }
+                                }
+                        }
                     }
                 }.coordinateSpace(name: "scroll")
             }
             .scaleEffect(scale)
-                .gesture(pinchGesture)
+            .gesture(pinchGesture)
             .fullScreenCover(isPresented: $showPhoto) {
                 OpenedPhotoView(currIndex: currIndex)
             }
