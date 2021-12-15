@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct PhotosCloneApp: App {
+    @StateObject var photoDatabase = PhotoDatabase()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(photoDatabase)
         }
     }
 }
