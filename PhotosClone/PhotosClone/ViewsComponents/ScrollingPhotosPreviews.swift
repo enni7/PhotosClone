@@ -15,11 +15,11 @@ struct ScrollingPhotosPreviews: View {
     var body: some View {
         ScrollViewReader { scroll in
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 4){
+                HStack(spacing: 2){
                     Spacer(minLength: 200)
                     ForEach(photoDatabase.photos) { photoo in
                         //if currIndex == photoDatabase.indexForPhoto(photo: photoo) -> original aspect
-                        PhotoRec(aspectRatio: 0.57, photo: photoo)
+                        PhotoRec(aspectRatio: 0.50, photo: photoo)
                             .id(photoDatabase.indexForPhoto(photo: photoo))
                             .onTapGesture {
                                 currIndex = photoDatabase.indexForPhoto(photo: photoo)

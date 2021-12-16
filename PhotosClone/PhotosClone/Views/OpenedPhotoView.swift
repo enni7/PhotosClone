@@ -36,8 +36,9 @@ struct OpenedPhotoView: View {
             .safeAreaInset(edge: .bottom) {
                 if !fullScreen {
                 ScrollingPhotosPreviews(currIndex: $currIndex)
+                    .padding(.top, 4)
                     .frame(maxHeight: 50)
-                    .padding(.top, 2)
+                    .background(.thinMaterial)
                     .opacity(fullScreen ? 0 : 1)
                     .transition(.opacity)
                 }

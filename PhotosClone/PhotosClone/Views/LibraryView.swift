@@ -13,7 +13,7 @@ struct LibraryView: View {
         let navBarStandardArrearance = UINavigationBarAppearance()
         let navBarscrollEdgeArrearance = UINavigationBarAppearance()
         
-        navBarscrollEdgeArrearance.configureWithTransparentBackground()
+        navBarscrollEdgeArrearance.configureWithOpaqueBackground()
         navBarStandardArrearance.configureWithTransparentBackground()
         navBarStandardArrearance.backgroundImage = UIImage(named: "gradientBlack")
         navBarStandardArrearance.backgroundImageContentMode = .scaleAspectFill
