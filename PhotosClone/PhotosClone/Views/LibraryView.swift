@@ -72,7 +72,7 @@ struct LibraryView: View {
             .gesture(pinchGesture)
             
             .fullScreenCover(isPresented: $showPhoto) {
-                OpenedPhotoView(currIndex: currIndex)
+                OpenedPhotoView(currIndex: $currIndex)
             }
             
             .toolbar {

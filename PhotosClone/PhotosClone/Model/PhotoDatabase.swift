@@ -64,8 +64,7 @@ class PhotoDatabase : ObservableObject {
     ]
         
     func indexForPhoto(photo: Photo) -> Int {
-        let sorted = self.photosSortedByDate()
-        if let index = sorted.firstIndex(where: {$0.id == photo.id && $0.date == photo.date}) {
+        if let index = self.photos.firstIndex(where: {$0.id == photo.id}) {
             return (index)
         } else {return 0}
     }

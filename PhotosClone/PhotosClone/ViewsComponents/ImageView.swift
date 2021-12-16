@@ -56,7 +56,9 @@ struct ImageView: View {
     var dragGesture: some Gesture {
         DragGesture(minimumDistance: scale == 1 ? .infinity : 0, coordinateSpace: .global)
             .onChanged{ value in
-                draggedAmount = value.translation
+                withAnimation {
+                    draggedAmount = value.translation
+                }
             }.onEnded { value in
                 drag.width += draggedAmount.width
                 drag.height += draggedAmount.height

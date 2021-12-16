@@ -12,7 +12,7 @@ struct OpenedPhotoView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var fullScreen = false
-    @State var currIndex: Int
+    @Binding var currIndex: Int
     
     var body: some View {
         NavigationView{
@@ -43,7 +43,6 @@ struct OpenedPhotoView: View {
                     .opacity(fullScreen ? 0 : 1)
                     .transition(.opacity)
                 }
-                    
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .navigationBarHidden(fullScreen)
@@ -114,7 +113,7 @@ struct OpenedPhotoView: View {
 
 struct OpenedPhotoView_Previews: PreviewProvider {
     static var previews: some View {
-        OpenedPhotoView(currIndex: 20)
+        OpenedPhotoView(currIndex: .constant(20))
             .environmentObject(PhotoDatabase())
     }
 }
