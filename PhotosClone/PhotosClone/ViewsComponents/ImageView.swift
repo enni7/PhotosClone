@@ -47,6 +47,7 @@ struct ImageView: View {
                     } else if value.degrees > 60 {
                         photoDatabase.rotateImg(index: index, rightTrueLeftFalse: true)
                         scale = 1
+                        drag = CGSize.zero
                     }
                 }
             }
