@@ -29,14 +29,14 @@ struct ScrollingPhotosPreviews: View {
                                 GeometryReader {geo in
                                     Rectangle()
                                         .opacity(0)
-                                        .onChange(of: geo.frame(in: .global)) { newValue in
-                                            //if it's in the middle frame
-                                            if (newValue.midX >= (( UIScreen.main.bounds.width - newValue.width) / 2)) && (newValue.midX <= ((UIScreen.main.bounds.width + newValue.width) / 2)) {
-                                                if currIndex != photoDatabase.indexForPhoto(photo: photoo) {
-                                                    currIndex = photoDatabase.indexForPhoto(photo: photoo)
-                                                }
-                                            }
-                                        }
+//                                        .onChange(of: geo.frame(in: .global)) { newValue in
+//                                            //if it's in the middle frame
+//                                            if (newValue.midX >= (( UIScreen.main.bounds.width - newValue.width) / 2)) && (newValue.midX <= ((UIScreen.main.bounds.width + newValue.width) / 2)) {
+//                                                if currIndex != photoDatabase.indexForPhoto(photo: photoo) {
+//                                                    currIndex = photoDatabase.indexForPhoto(photo: photoo)
+//                                                }
+//                                            }
+//                                        }
                                 }
                             }
                     }

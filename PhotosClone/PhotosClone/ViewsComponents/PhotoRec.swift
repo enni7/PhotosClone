@@ -12,7 +12,7 @@ struct PhotoRec: View {
     @EnvironmentObject var photoDatabase: PhotoDatabase
     
     @State var aspectRatio: CGFloat
-    @State var index: Int
+    var index: Int
     
     var body: some View {
         ZStack{

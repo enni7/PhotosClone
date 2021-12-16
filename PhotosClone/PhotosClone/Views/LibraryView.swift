@@ -9,19 +9,6 @@ import SwiftUI
 
 struct LibraryView: View {
     
-    init(){
-        let navBarStandardArrearance = UINavigationBarAppearance()
-        let navBarscrollEdgeArrearance = UINavigationBarAppearance()
-        
-        navBarscrollEdgeArrearance.configureWithOpaqueBackground()
-        navBarStandardArrearance.configureWithTransparentBackground()
-        navBarStandardArrearance.backgroundImage = UIImage(named: "gradientBlack")
-        navBarStandardArrearance.backgroundImageContentMode = .scaleAspectFill
-        
-        UINavigationBar.appearance().scrollEdgeAppearance = navBarscrollEdgeArrearance
-        UINavigationBar.appearance().standardAppearance = navBarStandardArrearance
-    }
-    
     @EnvironmentObject private var photoDatabase: PhotoDatabase
     @State private var showPhoto = false
     @State var currIndex: Int = 0
@@ -61,7 +48,6 @@ struct LibraryView: View {
                     LazyVGrid (columns: columns, spacing: 4) {
                         ForEach(photoDatabase.photos) { photo in
                             PhotoRec(aspectRatio: 1, index: photoDatabase.indexForPhoto(photo: photo))
-                                .id(photo.id)
                                 .onTapGesture {
                                     currIndex = photoDatabase.indexForPhoto(photo: photo)
                                     showPhoto.toggle()

@@ -9,6 +9,20 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var photoDatabase: PhotoDatabase
+    
+    init(){
+        let navBarStandardArrearance = UINavigationBarAppearance()
+        let navBarscrollEdgeArrearance = UINavigationBarAppearance()
+        
+        navBarscrollEdgeArrearance.configureWithOpaqueBackground()
+        navBarStandardArrearance.configureWithTransparentBackground()
+        navBarStandardArrearance.backgroundImage = UIImage(named: "gradientBlack")
+        navBarStandardArrearance.backgroundImageContentMode = .scaleAspectFill
+        
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarscrollEdgeArrearance
+        UINavigationBar.appearance().standardAppearance = navBarStandardArrearance
+    }
+    
     var body: some View {
         TabView {
             LibraryView()
