@@ -17,7 +17,6 @@ class PhotoDatabase : ObservableObject {
         Photo(title: "IMG_0051", date: Date(timeInterval: -7775729, since: Date.now)),
         Photo(title: "IMG_0052", date: Date(timeInterval: -12331686, since: Date.now)),
         Photo(title: "IMG_0053", date: Date(timeInterval: -16803837, since: Date.now)),
-        Photo(title: "IMG_0054", date: Date(timeInterval: -2535097, since: Date.now)),
         Photo(title: "IMG_0055", date: Date(timeInterval: -21834686, since: Date.now)),
         Photo(title: "IMG_0056", date: Date(timeInterval: -29617850, since: Date.now)),
         Photo(title: "IMG_0057", date: Date(timeInterval: -4223453, since: Date.now)),
