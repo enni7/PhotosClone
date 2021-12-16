@@ -12,7 +12,7 @@ struct Photo : Identifiable {
     
     var id: String {title}
     let title: String
-    let image: UIImage!
+    var image: UIImage!
     let date: Date
     var isFavorite: Bool
     

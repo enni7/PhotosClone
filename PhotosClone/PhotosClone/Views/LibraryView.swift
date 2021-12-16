@@ -24,7 +24,8 @@ struct LibraryView: View {
     
     @EnvironmentObject private var photoDatabase: PhotoDatabase
     @State private var showPhoto = false
-    @State var currIndex : Int = 0
+    @State var currIndex: Int = 0
+    @State var titleIndex: Int = 0
     
     @State private var scrolledBar = false
     @State private var minimunColumnWidth = 120.0
@@ -59,7 +60,7 @@ struct LibraryView: View {
                 ScrollView{
                     LazyVGrid (columns: columns, spacing: 4) {
                         ForEach(photoDatabase.photos) { photo in
-                            PhotoRec(aspectRatio: 1, photo: photo)
+                            PhotoRec(aspectRatio: 1, index: photoDatabase.indexForPhoto(photo: photo))
                                 .id(photo.id)
                                 .onTapGesture {
                                     currIndex = photoDatabase.indexForPhoto(photo: photo)
@@ -74,7 +75,7 @@ struct LibraryView: View {
                                     scrolledBar = (newVal >= 0 ? false : true)
                                     let modulus = abs(newVal).remainder(dividingBy: minimunColumnWidth + 4)
                                     if modulus >= 0 && modulus <= 1  {
-                                        currIndex = photoDatabase.scrolledCurrentPhotoIndex(offset: newVal, colWidth: minimunColumnWidth)
+                                        titleIndex = photoDatabase.scrolledCurrentPhotoIndex(offset: newVal, colWidth: minimunColumnWidth)
                                     }
                                 }
                         }
@@ -82,7 +83,7 @@ struct LibraryView: View {
                 }.coordinateSpace(name: "scroll")
             }
             .scaleEffect(scale)
-            .simultaneousGesture(pinchGesture)
+            .gesture(pinchGesture)
             
             .fullScreenCover(isPresented: $showPhoto) {
                 OpenedPhotoView(currIndex: currIndex)
@@ -90,7 +91,7 @@ struct LibraryView: View {
             
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Text(photoDatabase.photos[currIndex].dateFormattedDayMonth())
+                    Text(photoDatabase.photos[titleIndex].dateFormattedDayMonth())
                         .font(.title)
                         .fontWeight(.bold)
                         .shadow(color: .black, radius: scrolledBar ? 5 : 0)

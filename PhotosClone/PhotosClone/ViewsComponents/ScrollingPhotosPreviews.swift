@@ -19,7 +19,7 @@ struct ScrollingPhotosPreviews: View {
                     Spacer(minLength: 200)
                     ForEach(photoDatabase.photos) { photoo in
                         //if currIndex == photoDatabase.indexForPhoto(photo: photoo) -> original aspect
-                        PhotoRec(aspectRatio: 0.50, photo: photoo)
+                        PhotoRec(aspectRatio: 0.50, index: photoDatabase.indexForPhoto(photo: photoo))
                             .id(photoDatabase.indexForPhoto(photo: photoo))
                             .onTapGesture {
                                 currIndex = photoDatabase.indexForPhoto(photo: photoo)
@@ -45,7 +45,7 @@ struct ScrollingPhotosPreviews: View {
             }
             .onChange(of: currIndex, perform: { new in
                 withAnimation(.default) {
-                    scroll.scrollTo(currIndex, anchor: .center)
+                    scroll.scrollTo(new, anchor: .center)
                 }
             })
             .onAppear {

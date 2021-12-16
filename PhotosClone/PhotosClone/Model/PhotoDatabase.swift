@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+
 class PhotoDatabase : ObservableObject {
     init () {
         self.photos = self.photosSortedByDate()
@@ -62,11 +63,7 @@ class PhotoDatabase : ObservableObject {
         Photo(title: "IMG_0050", date: Date(timeInterval: -16803837, since: Date.now)),
         Photo(title: "IMG_0088", date: Date(timeInterval: -2535097, since: Date.now))
     ]
-    
-    enum PreviousOrNext {
-        case previous, next
-    }
-    
+        
     func indexForPhoto(photo: Photo) -> Int {
         let sorted = self.photosSortedByDate()
         if let index = sorted.firstIndex(where: {$0.id == photo.id && $0.date == photo.date}) {
@@ -101,16 +98,41 @@ class PhotoDatabase : ObservableObject {
         return sorted
     }
     
-    func previousNextPhoto(currPhoto: Photo, previousNext: PhotoDatabase.PreviousOrNext) -> Photo {
+    func rotateImg(index: Int, rightTrueLeftFalse: Bool) {
+        let currOrient = self.photos[index].image.imageOrientation
         
-        var newPhoto = currPhoto
-        guard let index = self.photos.firstIndex(where: { $0.id == currPhoto.id }) else { return newPhoto}
-        if previousNext == .previous && index != 0 {
-            newPhoto = self.photos[index - 1]
-        } else if previousNext == .next && index != self.photos.count - 1 {
-            newPhoto = self.photos[index + 1]
+        let rightOriented = UIImage(cgImage: self.photos[index].image.cgImage!, scale: 1, orientation: .right)
+        let leftOriented = UIImage(cgImage: self.photos[index].image.cgImage!, scale: 1, orientation: .left)
+        let upOriented = UIImage(cgImage: self.photos[index].image.cgImage!, scale: 1, orientation: .up)
+        let downOriented = UIImage(cgImage: self.photos[index].image.cgImage!, scale: 1, orientation: .down)
+        
+        switch currOrient {
+        case .up:
+            self.photos[index].image = rightTrueLeftFalse ? rightOriented : leftOriented
+        case .left:
+            self.photos[index].image = rightTrueLeftFalse ? upOriented : downOriented
+        case .right:
+            self.photos[index].image = rightTrueLeftFalse ? downOriented : upOriented
+        default:
+            self.photos[index].image = rightTrueLeftFalse ? leftOriented : rightOriented
+            
         }
-        return newPhoto
     }
+    
+//    enum PreviousOrNext {
+//        case previous, next
+//    }
+//    func previousNextPhoto(currPhoto: Photo, previousNext: PhotoDatabase.PreviousOrNext) -> Photo {
+//
+//        var newPhoto = currPhoto
+//        guard let index = self.photos.firstIndex(where: { $0.id == currPhoto.id }) else { return newPhoto}
+//        if previousNext == .previous && index != 0 {
+//            newPhoto = self.photos[index - 1]
+//        } else if previousNext == .next && index != self.photos.count - 1 {
+//            newPhoto = self.photos[index + 1]
+//        }
+//        return newPhoto
+//    }
+    
 }
 

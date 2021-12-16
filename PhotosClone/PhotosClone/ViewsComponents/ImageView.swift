@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ImageView: View {
     @EnvironmentObject var photoDatabase: PhotoDatabase
     
-    @State var photo: Photo
+    @State var index: Int
     
     @GestureState var zoomScaleAmount = 1.0
     @State var scale = 1.0
@@ -30,6 +31,7 @@ struct ImageView: View {
                 }
             }
     }
+    
     @GestureState var rotationAngleAmount = Angle.zero
     @State var angle = Angle.zero
     
@@ -40,13 +42,16 @@ struct ImageView: View {
             } .onEnded { value in
                 withAnimation {
                     if value.degrees < -60 {
-                        angle += Angle(degrees: -90)
+                        photoDatabase.rotateImg(index: index, rightTrueLeftFalse: false)
+                        scale = 1
                     } else if value.degrees > 60 {
-                        angle += Angle(degrees: 90)
+                        photoDatabase.rotateImg(index: index, rightTrueLeftFalse: true)
+                        scale = 1
                     }
                 }
             }
     }
+    
     var dragGesture: some Gesture {
         DragGesture(minimumDistance: scale == 1 ? .infinity : 0, coordinateSpace: .global)
             .onChanged{ value in
@@ -59,6 +64,7 @@ struct ImageView: View {
                 let dragScaled = CGSize(width: drag.width * scale, height: drag.height * scale)
                 
                 withAnimation {
+                    //
                     if dragScaled.width > offsetWidthMax {
                         drag.width = offsetWidthMax
                     } else if drag.width * scale < -offsetWidthMax {
@@ -74,16 +80,16 @@ struct ImageView: View {
             }
     }
     
-    @State var doubleTappedPoint = UnitPoint(x: 0, y: 0)
     @State var doubleTapped = false
     @State var draggedAmount = CGSize.zero
     @State var drag = CGSize(width: 0, height: 0)
+    
     var body: some View {
-        Image(uiImage: photo.image)
+        Image(uiImage: photoDatabase.photos[index].image)
             .resizable()
             .scaledToFit()
             .offset(x: drag.width + draggedAmount.width, y: drag.height + draggedAmount.height)
-            .rotationEffect(angle + rotationAngleAmount)
+            .rotationEffect(rotationAngleAmount)
             .scaleEffect(scale * zoomScaleAmount)
             .gesture(zoomGesture
                         .simultaneously(with: rotationGesture)
@@ -103,10 +109,9 @@ struct ImageView: View {
     }
 }
 
-
 struct ImageView_Previews: PreviewProvider {
     static var previews: some View {
-        ImageView(photo: PhotoDatabase().photos[11])
+        ImageView(index: 11)
             .environmentObject(PhotoDatabase())
     }
 }

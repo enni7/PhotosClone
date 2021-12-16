@@ -20,9 +20,10 @@ struct OpenedPhotoView: View {
                 Color.black
                     .opacity(fullScreen ? 1 : 0)
                     .ignoresSafeArea()
+                
                 TabView(selection: $currIndex) {
                     ForEach(0..<photoDatabase.photos.count, id: \.self) {indx in
-                        ImageView(photo: photoDatabase.photos[indx])
+                        ImageView(index: indx)
                             .ignoresSafeArea()
                             .onTapGesture {
                                 withAnimation(.linear(duration: 0.3)) {
@@ -107,7 +108,6 @@ struct OpenedPhotoView: View {
                     }
                 }
             }
-            
         }
     }
 }
