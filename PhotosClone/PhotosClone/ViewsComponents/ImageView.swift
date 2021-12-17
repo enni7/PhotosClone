@@ -27,6 +27,7 @@ struct ImageView: View {
                     scale = 5
                 } else if scale < 1 {
                     scale = 1
+                    drag = CGSize.zero
                     tryingToClose = true
                 }
             }
@@ -56,9 +57,7 @@ struct ImageView: View {
     var dragGesture: some Gesture {
         DragGesture(minimumDistance: scale == 1 ? .infinity : 0, coordinateSpace: .global)
             .onChanged{ value in
-                withAnimation {
                     draggedAmount = value.translation
-                }
             }.onEnded { value in
                 drag.width += draggedAmount.width
                 drag.height += draggedAmount.height
