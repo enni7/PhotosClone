@@ -93,6 +93,10 @@ struct ImageView: View {
             .offset(x: drag.width + draggedAmount.width, y: drag.height + draggedAmount.height)
             .rotationEffect(rotationAngleAmount)
             .scaleEffect(scale * zoomScaleAmount)
+            .onAppear(perform: {
+                drag = CGSize.zero
+                scale = 1
+            })
             .gesture(zoomGesture
                         .simultaneously(with: rotationGesture)
                         .simultaneously(with: dragGesture)

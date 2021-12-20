@@ -26,6 +26,7 @@ struct LibraryView: View {
         MagnificationGesture()
             .onChanged{ value in
                 scale = value
+                withAnimation{
                 let scaledMaxWidth = minimunColumnWidth * scale
                 var newMin : CGFloat {
                     if scale < 1 {
@@ -36,8 +37,11 @@ struct LibraryView: View {
                 }
                 minimunColumnWidth = newMin
             }
+            }
             .onEnded { value in
-                scale = 1.0
+                withAnimation {
+                    scale = 1.0
+                }
             }
     }
     
@@ -69,7 +73,7 @@ struct LibraryView: View {
                 }.coordinateSpace(name: "scroll")
             }
             .scaleEffect(scale)
-            .gesture(pinchGesture)
+            .simultaneousGesture(pinchGesture)
             
             .fullScreenCover(isPresented: $showPhoto) {
                 OpenedPhotoView(currIndex: $currIndex)

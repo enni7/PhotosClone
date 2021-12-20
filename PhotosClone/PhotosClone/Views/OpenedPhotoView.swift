@@ -106,8 +106,8 @@ struct OpenedPhotoView: View {
                         }
                     }
                 }
-            }
-        }
+            }.transition(.opacity)
+        }.transition(.opacity)
     }
 }
 
